@@ -1,9 +1,12 @@
 // const bcrypt = require("bcrypt");
 // const jwt = require("../utils/jwt");
 // const prisma = require("../prismaClient");
-import bcrypt from "bcrypt";
-import jwt from "../utils/jwt";
-import prisma from "../prismaClient";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { prisma } from "../prismaClient.js";
+
+const SECRET = process.env.JWT_SECRET || "your_jwt_secret";
+const TOKEN_EXPIRATION = "1h"; // Adjust expiration as needed
 
 export const register = async (req, res) => {
   const { username, email, password } = req.body;
@@ -26,6 +29,9 @@ export const login = async (req, res) => {
   if (!validPassword)
     return res.status(401).json({ message: "Invalid credentials" });
 
-  const token = jwt.generateToken({ id: user.id, role: user.role });
+  const token = jwt.sign({ id: user.id, role: user.role }, SECRET, {
+    expiresIn: TOKEN_EXPIRATION,
+  });
+
   res.status(200).json({ token });
 };

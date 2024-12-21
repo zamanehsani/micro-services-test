@@ -2,9 +2,12 @@
 // const { register, login } = require("../controllers/authController");
 
 import express from "express";
-import { register, login } from "../controllers/authController";
-import { getUserDetails, updateUserRole } from "../controllers/userController";
-import { authenticate, authorize } from "../middlewares/auth";
+import { register, login } from "../controllers/authController.js";
+import {
+  getUserDetails,
+  updateUserRole,
+} from "../controllers/userController.js";
+import { authenticate, authorize } from "../middlewares/authMiddleware.js";
 
 export const router = express.Router();
 

@@ -1,5 +1,5 @@
 // const prisma = require("../prismaClient");
-import prisma from "../prismaClient";
+import { prisma } from "../prismaClient.js";
 
 export const getUserDetails = async (req, res) => {
   const { id } = req.user; // `id` is extracted from the JWT payload
