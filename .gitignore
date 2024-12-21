@@ -4,8 +4,5 @@ node_modules
 npm-debug.log
 yarn-error.log
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.env.development
+package-lock.json
 .env 
