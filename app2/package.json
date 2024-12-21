@@ -1,0 +1,20 @@
+{
+  "name": "app2",
+  "version": "1.0.0",
+  "description": "testing",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "zee",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2",
+    "amqplib": "^0.10.3",
+    "prisma": "^5.0.0",
+    "@prisma/client": "^5.0.0",
+    "pg": "^8.10.0"
+  }
+}

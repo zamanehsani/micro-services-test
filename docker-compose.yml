@@ -1,0 +1,77 @@
+version: "3.9"
+
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq-apps
+    ports:
+      - "5672:5672" # RabbitMQ messaging
+      - "15672:15672" # RabbitMQ UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:15
+    container_name: postgres-apps-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - postgres-apps-data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
+
+  app1:
+    build:
+      context: ./app1
+    container_name: app1
+    environment:
+      DATABASE_URL: postgres://admin:admin@postgres:5432/app1db
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      - postgres
+      - rabbitmq
+    networks:
+      - app-network
+    ports:
+      - "3001:3001"
+    command:
+      [
+        "sh",
+        "-c",
+        "npx prisma generate && npx prisma migrate deploy && node server.js",
+      ]
+
+  app2:
+    build:
+      context: ./app2
+    container_name: app2
+    environment:
+      DATABASE_URL: postgres://admin:admin@postgres:5432/app2db
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      - postgres
+      - rabbitmq
+    networks:
+      - app-network
+    ports:
+      - "3002:3002"
+    command:
+      [
+        "sh",
+        "-c",
+        "npx prisma generate && npx prisma migrate deploy && node server.js",
+      ]
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres-apps-data:
