@@ -1,9 +1,10 @@
 // const express = require("express");
 // const { getProducts, addProduct } = require("../controllers/productController");
 // const { verifyToken, requireRole } = require("../middlewares/authMiddleware");
+
 import express from "express";
-import { getProducts, addProduct } from "../controllers/productController";
-import { verifyToken, requireRole } from "../middlewares/authMiddleware";
+import { getProducts, addProduct } from "../controllers/productController.js";
+import { verifyToken, requireRole } from "../middlewares/authMiddleware.js";
 
 export const router = express.Router();
 

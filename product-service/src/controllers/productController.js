@@ -1,9 +1,11 @@
 // const prisma = require("../prismaClient");
 
-import prisma from "../prismaClient";
+import { prisma } from "../prismaClient.js";
 
 // Get all products
 export const getProducts = async (req, res) => {
+  console.log("req body: ", req.body);
+  console.log("req user: ", req.user);
   try {
     const products = await prisma.product.findMany();
     res.status(200).json(products);

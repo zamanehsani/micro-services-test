@@ -6,11 +6,11 @@ const SECRET = process.env.JWT_SECRET || "your_jwt_secret";
 const TOKEN_EXPIRATION = "1h";
 
 export const register = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, role, password } = req.body;
 
   const hashedPassword = await bcrypt.hash(password, 10);
   const user = await prisma.user.create({
-    data: { username, email, password: hashedPassword },
+    data: { username, email, role, password: hashedPassword },
   });
 
   res.status(201).json({ message: "User registered successfully", user });
