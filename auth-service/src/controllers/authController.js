@@ -1,12 +1,9 @@
-// const bcrypt = require("bcrypt");
-// const jwt = require("../utils/jwt");
-// const prisma = require("../prismaClient");
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { prisma } from "../prismaClient.js";
 
 const SECRET = process.env.JWT_SECRET || "your_jwt_secret";
-const TOKEN_EXPIRATION = "1h"; // Adjust expiration as needed
+const TOKEN_EXPIRATION = "1h";
 
 export const register = async (req, res) => {
   const { username, email, password } = req.body;
