@@ -69,6 +69,48 @@ services:
         "npx prisma generate && npx prisma migrate deploy && node server.js",
       ]
 
+  auth-service:
+    build:
+      context: ./auth-service
+    container_name: auth-service
+    environment:
+      DATABASE_URL: postgres://admin:admin@postgres:5432/authdb
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+      JWT_SECRET: your_jwt_secret
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+    ports:
+      - "3003:3003"
+    command:
+      [
+        "sh",
+        "-c",
+        "npx prisma generate && npx prisma migrate deploy && node src/server.js",
+      ]
+
+  product-service:
+    build:
+      context: ./product-service
+    container_name: product-service
+    environment:
+      DATABASE_URL: postgres://admin:admin@postgres:5432/product-db
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+      JWT_SECRET: your_jwt_secret
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+    ports:
+      - "3004:3004"
+    command:
+      [
+        "sh",
+        "-c",
+        "npx prisma generate && npx prisma migrate deploy && node src/app.js",
+      ]
+
 networks:
   app-network:
     driver: bridge
