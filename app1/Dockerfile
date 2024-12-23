@@ -16,4 +16,5 @@ RUN npx prisma generate
 EXPOSE 3001
 
 # Run the app
-CMD ["sh", "-c", "npx prisma migrate deploy && node server.js"]
+# CMD ["sh", "-c", "npx prisma migrate deploy && node server.js"]
+CMD ["sh", "-c", "node server.js"]
